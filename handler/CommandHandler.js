@@ -1,7 +1,7 @@
 const Discord = require("discord.js");
+const ascii = require('ascii-table');
 
 module.exports = (fileNames) => {
-    const ascii = require('ascii-table');
     const table = new ascii().setHeading("Command File", "Status", "Command", "Aliases")
     const commands = new Discord.Collection();
 

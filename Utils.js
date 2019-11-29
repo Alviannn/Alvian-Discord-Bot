@@ -4,7 +4,7 @@ module.exports = {
             return null;
         }
 
-        const random = Math.floor(Math.random() * (max - min + 1) + min);
+        let random = Math.floor(Math.random() * (max - min + 1) + min);
         if (random === max) {
             random--;
         }
@@ -14,7 +14,7 @@ module.exports = {
     randomBoolean() {
         const booleans = [true, false];
 
-        const random = this.randomNumber(booleans.length, 0);
+        let random = this.randomNumber(booleans.length, 0);
         if (random > 1) {
             random--;
         }

@@ -1,7 +1,7 @@
 const startTime = new Date().getTime();
 
 const Discord = require('discord.js');
-const { Server } = require('./objects/Server.js');
+const { Server } = require('./objects/Server');
 const config = require('./config.json');
 const fileSys = require("fs");
 const Utils = require('./Utils');
@@ -112,6 +112,7 @@ module.exports = {
 		this.createEmptyFile(filePath);
 
 		if (!this.fileExists(filePath)) {
+			new Server()
 			return new Server(guildId, prefix, 0);
 		}
 
