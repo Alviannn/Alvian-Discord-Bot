@@ -112,7 +112,6 @@ module.exports = {
 		this.createEmptyFile(filePath);
 
 		if (!this.fileExists(filePath)) {
-			new Server()
 			return new Server(guildId, prefix, 0);
 		}
 
@@ -130,7 +129,7 @@ module.exports = {
 		if (content) {
 			server = Server.fromJson(JSON.stringify(content, null, 4), guildId);
 		}
-		else {
+		if (!content || !server) {
 			server = new Server(guildId, prefix, 0);
 		}
 
@@ -227,9 +226,62 @@ client.on('message', async (message) => {
 	});
 });
 
+/**
+ * handles guild create event (on join)
+ */
+client.on('guildCreate', async (guild) => {
+	const serverArray = [];
+
+	client.guilds.forEach((guild) => {
+		const server = module.exports.getOrCreateServer(guild.id);
+		serverArray.push(server);
+	});
+
+	// confirms the guild existence
+	let exists = false;
+	for (const server in serverArray) {
+		if (!(server instanceof Server)) {
+			continue;
+		}
+
+		if (server.guildId === guild.id) {
+			exists = true;
+			break;
+		}
+	}
+
+	// adds the server if the server doesn't exist
+	if (!exists) {
+		serverArray.push(new Server(guild.id, prefix, 0));
+	}
+
+	module.exports.saveServers(serverArray);
+});
+
+/**
+ * handles guild delete event
+ */
+client.on('guildDelete', (guild) => {
+	const serverArray = [];
+
+	client.guilds.forEach((tempGuild) => {
+		if (guild.id !== tempGuild.id) {
+			const server = module.exports.getOrCreateServer(tempGuild.id);
+			serverArray.push(server);
+		}
+	});
+	
+	module.exports.saveServers(serverArray);
+})
+
 // handles the client login
 client.login(botToken);
 
+/**
+ * re-setups the existing servers
+ * 
+ * could be used to create new server while the bot was online
+ */
 setTimeout(() => {
 	const serverArray = [];
 
