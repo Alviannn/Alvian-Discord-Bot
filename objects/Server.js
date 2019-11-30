@@ -1,8 +1,4 @@
-module.exports.Server = class Server {
-
-	guildId;
-	prefix;
-	modChannelId;
+class Server {
 
 	/**
 	 * constructs the server instance
@@ -65,3 +61,5 @@ module.exports.Server = class Server {
 	}
 	
 };
+
+module.exports.Server = Server;

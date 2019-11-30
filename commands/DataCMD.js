@@ -19,11 +19,11 @@ module.exports = {
         }
         
         const filePath = args[0] + "";
+        if (filePath.endsWith("/")) {
+            filePath = filePath.substring(0, filePath.length - 1);
+        }
         if (!Main.fileExists(filePath)) {
             return message.reply("Cannot file path '" + filePath + "'!");
-        }
-        if (filePath.endsWith("/")) {
-            filePath.substring(0, filePath.length - 1);
         }
 
         const splitArr = filePath.split(".");
@@ -31,8 +31,7 @@ module.exports = {
 
         let content = null;
         try {
-            const bufferData = fs.readFileSync(filePath, {encoding: 'utf8'});
-            content = bufferData;
+            content = fs.readFileSync(filePath, {encoding: 'utf8'});
         } catch (error) {
             console.log(error);
         }
