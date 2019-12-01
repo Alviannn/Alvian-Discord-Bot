@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const Main = require('../Main.js');
+const { Song } = require('../objects/Song.js');
 const fs = require('fs');
 const MusicHandler = require('../handler/MusicHandler.js');
 
@@ -19,7 +20,10 @@ module.exports = {
             return message.reply("Invalid arguments!");
         }
         else {
-            MusicHandler.searchYouTube(args.join(" "), message);
+            const result = MusicHandler.playMusic(new Song('', 'https://www.youtube.com/watch?v=lzsow8bnT3Y'), message);
+            if (result instanceof Error) {
+                message.channel.send("An error has occurred! \n\n" + result);
+            }
         }
     }
 };
