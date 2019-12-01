@@ -193,8 +193,8 @@ client.on('ready', async () => {
 	client.user.setPresence({
 		status: 'online',
 		game: {
-			name: 'My developer coding me',
-			type: 'WATCHING'
+			type: 'WATCHING',
+			name: 'NOTHING'
 		}
 	});
 });
