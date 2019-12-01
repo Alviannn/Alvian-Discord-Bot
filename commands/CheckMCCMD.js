@@ -12,6 +12,7 @@ module.exports = {
             return;
         }
 
+        const server = Main.getOrCreateServer(message.guild.id);
         if (args.length == 0) {
             return message.channel.send(new Discord.RichEmbed()
                 .setTitle("Usages")

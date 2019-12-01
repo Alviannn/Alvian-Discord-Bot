@@ -19,8 +19,9 @@ module.exports = {
         }
 
         const stringArray = new Array();
+        const server = Main.getOrCreateServer(message.guild.id);
         commands.forEach((value, key, map) => {
-             stringArray.push("● -- `" + Main.prefix() + key + "`" + (value.description ? " - _" + value.description + "_" : ""));
+             stringArray.push("● -- `" + server.prefix + key + "`" + (value.description ? " - _" + value.description + "_" : ""));
         });
 
         if (stringArray.length === 0) {

@@ -33,8 +33,9 @@ module.exports = {
 			return;
 		}
 
+		const server = Main.getOrCreateServer(message.guild.id);
 		if (args.length < 2) {
-			return message.channel.send("Usage: " + Main.prefix() + "report <name> <reason>");
+			return message.channel.send("Usage: " + server.prefix + "report <name> <reason>");
 		}
 
         let reportedUser = message.guild.member(message.mentions.users.first());
@@ -62,10 +63,8 @@ module.exports = {
 			.addField('**Reported user**', reportedUser.displayName + ' `[ID: ' + reportedUser.id + ']`')
 			.addField('**Reported by**', message.member.displayName + ' `[ID: ' + message.member.id + ']`')
 			.addField('**Reason**', reason)
-			.addField('**Time**', require("../Main.js").formatDate(message.createdAt))
+			.addField('**Time**', Main.formatDate(message.createdAt))
 			.addField('**Channel**', message.channel.name);
-
-		const server = Main.getOrCreateServer(message.guild.id);
 
 		const iterable = message.guild.channels.values();
 		while (true) {

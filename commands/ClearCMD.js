@@ -10,8 +10,9 @@ module.exports = {
             return;
         }
 
+        const server = Main.getOrCreateServer(message.guild.id);
         if (args.length < 1) {
-            return message.channel.send("Usage: " + Main.prefix() + "clear <messages count>");
+            return message.channel.send("Usage: " + server.prefix + "clear <messages count>");
         }
 
         if (!message.member.hasPermission("MANAGE_MESSAGES")) {

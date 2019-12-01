@@ -11,11 +11,12 @@ module.exports = {
             return;
         }
         
+        const server = Main.getOrCreateServer(message.guild.id);
         if (message.member.user.id !== "217970261230747648") {
             return message.reply("You don't have any access to do this!");
         }
         if (args.length === 0) {
-            return message.reply("Usage: " + Main.prefix() + "data <path> \nExamples: " + Main.prefix() + "data ./servers.json");
+            return message.send("Usage: " + server.prefix + "data <path> \nExamples: " + server.prefix + "data ./servers.json");
         }
         
         const filePath = args[0] + "";
