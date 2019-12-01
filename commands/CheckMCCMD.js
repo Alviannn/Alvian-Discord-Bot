@@ -24,7 +24,14 @@ module.exports = {
             )
         }
         else {
-            const url = 'https://mcapi.us/server/status?ip=' + args[0];
+            const address =  args[0].split(':');
+            const addressName = address.join('-');
+            let url = 'https://mcapi.us/server/status?ip=' + address[0];
+
+            if (address.length === 2) {
+                url += '&port=' + address[1];
+            }
+
             request(url, async function (error, response, body) {
                 if (error) {
                     return console.log('An error has occurred! \n' + error);
@@ -50,7 +57,7 @@ module.exports = {
 
                     if (imageData) {
                         const buffer = Buffer.from(imageData.split(';base64,')[1], 'base64');
-                        attachment = new Discord.Attachment(buffer, args[0] + '.png');         
+                        attachment = new Discord.Attachment(buffer, addressName + '.png');         
                     }
                     
                     // if (!fs.existsSync('./image-cache')) {
@@ -60,16 +67,15 @@ module.exports = {
 
                     const embed = new Discord.RichEmbed()
                         .setTitle("Minecraft Server Status")
-                        // .attachFile(attachment)
-                        // .setColor("#9300c4")
-                        // .setThumbnail("attachment://" + args[0] + ".png")
                         .setColor(content.online ? "#04ff04" : "#ff0000")
-                        .addField("IP Address", args[0])
+                        .addField("IP Address", address.join(":"))
                         .addField("Status", content.online ? "ONLINE" : "OFFLINE")
-                        .addField("Players", content["players"].now)
+                        .addField("Players", content["players"].now + " / " + content["players"].max)
+                        .addField("Server", content["server"].name)
+                        .addField("MOTD", content.motd);
 
                     if (attachment) {
-                        embed.attachFile(attachment).setThumbnail("attachment://" + args[0] + ".png")
+                        embed.attachFile(attachment).setThumbnail("attachment://" + addressName + ".png")
                     }
                     else {
                         embed.setThumbnail("https://i.imgur.com/14COhR2.jpg");
