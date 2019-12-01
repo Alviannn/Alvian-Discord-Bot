@@ -34,7 +34,7 @@ module.exports = {
 
             request(url, async function (error, response, body) {
                 if (error) {
-                    return console.log('An error has occurred! \n' + error);
+                    return message.channel.send('An error has occurred! \n\n' + error);
                 }
 
                 const content = JSON.parse(body);
@@ -48,10 +48,14 @@ module.exports = {
                         message.channel.send('Failed to send message! \n```\n' + error + '```');
                     });
                 }
-                else {
-                    const date = new Date();
-                    date.setTime(Main.elapsed(content.duration));
-                    
+                else {                  
+                    if (content['status'] === "error") {
+                        if (content['error']) {
+                            return message.channel.send("Failed to retrieve minecraft status! \n\n" + content['error']);
+                        }
+                        return message.channel.send("Failed to retrieve minecraft status!");
+                    }
+
                     const imageData = content.favicon;
                     let attachment;
 
@@ -81,10 +85,9 @@ module.exports = {
                         embed.setThumbnail("https://i.imgur.com/14COhR2.jpg");
                     }
 
-                    message.channel.send(embed); 
+                    message.channel.send(embed);
                 }
 
-                
             });
         }
     }

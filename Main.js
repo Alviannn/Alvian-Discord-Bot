@@ -3,10 +3,10 @@ const startTime = new Date().getTime();
 const Discord = require('discord.js');
 const { Server } = require('./objects/Server');
 const config = require('./config.json');
-const fileSys = require("fs");
+const fs = require("fs");
 const Utils = require('./Utils');
 
-let commands;
+let commands = [];
 
 /**
  * initializes the client variable (discord client instance)
@@ -78,7 +78,7 @@ module.exports = {
 	 * @returns true if file exists, otherwise false
 	 */
 	fileExists(filePath) {
-		return fileSys.existsSync(filePath);
+		return fs.existsSync(filePath);
 	},
 	
 	/**
@@ -88,7 +88,7 @@ module.exports = {
 	 */
 	createEmptyFile(filePath) {
 		if (!this.fileExists(filePath)) {
-			fileSys.writeFileSync(filePath, "", {encoding: 'utf8'});
+			fs.writeFileSync(filePath, "", {encoding: 'utf8'});
 		}
 	},
 
@@ -116,7 +116,7 @@ module.exports = {
 		}
 
 		try {
-			const bufferData = fileSys.readFileSync(filePath, {encoding: 'utf8'});
+			const bufferData = fs.readFileSync(filePath, {encoding: 'utf8'});
 
 			if (bufferData) {
 				content = JSON.parse(bufferData);
@@ -148,7 +148,7 @@ module.exports = {
 		this.createEmptyFile(filePath);
 
 		try {
-			const bufferData = fileSys.readFileSync(filePath, {encoding: 'utf8'});
+			const bufferData = fs.readFileSync(filePath, {encoding: 'utf8'});
 
 			if (bufferData) {
 				content = JSON.parse(bufferData);
@@ -165,11 +165,24 @@ module.exports = {
 			content[server.guildId] = server.toObject();
 		});
 
-		fileSys.writeFileSync(filePath, JSON.stringify(content, null, 4), {encoding: 'utf8'});
+		fs.writeFileSync(filePath, JSON.stringify(content, null, 4), {encoding: 'utf8'});
 	},
 
 	/**
-	 * gets the command list
+	 * inserts a command list to the 'commands' variable
+	 * 
+	 * @param commandList the command list
+	 */
+	insertCommands(commandList) {
+		if (!commandList) {
+			return;
+		}
+		
+		commands = commandList;
+	},
+
+	/**
+	 * @returns the command list
 	 */
 	getCommandList() {
 		return commands;
@@ -179,100 +192,8 @@ module.exports = {
 
 // ------------------------------------------ //
 
-const CommandHandler = require('./handler/CommandHandler.js');
-commands = CommandHandler(fileSys.readdirSync("./commands/"));
-
-/**
- * handles the stuff to do when the client is ready
- */
-client.on('ready', async () => {
-	console.log('Discord bot has been started!');
-
-	console.log('It took ' + module.exports.elapsed(startTime) + ' ms to start!');
-
-	client.user.setPresence({
-		status: 'online',
-		game: {
-			type: 'WATCHING',
-			name: 'NOTHING'
-		}
-	});
-});
-
-/**
- * handles message event
- * 
- * this part mostly handles the commands execution
- */
-client.on('message', async (message) => {
-	const guildPrefix = module.exports.getOrCreateServer(message.guild.id).prefix;
-    if (message.author.bot || !message.guild || !message.content.startsWith(guildPrefix)) {
-        return;
-	}
-
-	const args = message.content.substring(guildPrefix.length).trim().split(' ');
-	const cmd = args.shift().toLowerCase();
-
-	const command = commands.get(cmd);
-
-	if (command) {
-		return command.execute(message, args);
-	}
-		
-	commands.forEach(value => {
-		if (value.aliases.includes(cmd)) {
-			return value.execute(message, args);
-		}
-	});
-});
-
-/**
- * handles guild create event (on join)
- */
-client.on('guildCreate', async (guild) => {
-	const serverArray = [];
-
-	client.guilds.forEach((guild) => {
-		const server = module.exports.getOrCreateServer(guild.id);
-		serverArray.push(server);
-	});
-
-	// confirms the guild existence
-	let exists = false;
-	for (const server in serverArray) {
-		if (!(server instanceof Server)) {
-			continue;
-		}
-
-		if (server.guildId === guild.id) {
-			exists = true;
-			break;
-		}
-	}
-
-	// adds the server if the server doesn't exist
-	if (!exists) {
-		serverArray.push(new Server(guild.id, prefix, 0));
-	}
-
-	module.exports.saveServers(serverArray);
-});
-
-/**
- * handles guild delete event
- */
-client.on('guildDelete', (guild) => {
-	const serverArray = [];
-
-	client.guilds.forEach((tempGuild) => {
-		if (guild.id !== tempGuild.id) {
-			const server = module.exports.getOrCreateServer(tempGuild.id);
-			serverArray.push(server);
-		}
-	});
-	
-	module.exports.saveServers(serverArray);
-})
+const ListenerHandler = require('./handler/ListenerHandler.js');
+ListenerHandler.handleRegister(client);
 
 // handles the client login
 client.login(botToken);
