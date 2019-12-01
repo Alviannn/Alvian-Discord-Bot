@@ -120,6 +120,17 @@ module.exports = {
                     .setDescription("This channel has been set as the mod channel! \n(Channel ID: " + message.channel.id + ")")
                 )
             }
+            case "resetmodchannel": {
+                server.modChannelId = 0;
+                Main.saveServers([server]);
+
+                return message.channel.send(new Discord.RichEmbed()
+                    .setTitle("Mod Channel")
+                    .setThumbnail("https://cdn0.iconfinder.com/data/icons/social-messaging-ui-color-shapes/128/check-circle-green-512.png")
+                    .setColor("#0fff09")
+                    .setDescription("Mod channel ID has been cleared!")
+                )
+            }
             default: {
                 return message.channel.send(new Discord.RichEmbed()
                     .setColor("#fcd701")
