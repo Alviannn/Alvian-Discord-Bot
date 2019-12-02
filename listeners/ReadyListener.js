@@ -20,7 +20,7 @@ module.exports = {
                 status: 'online',
                 game: {
                     type: 'WATCHING',
-                    name: 'NOTHING'
+                    name: 'My creator suffering :3'
                 }
             });
         });
