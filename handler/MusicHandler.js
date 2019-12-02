@@ -44,22 +44,26 @@ module.exports = {
             return;
         }
 
+        // checks if the sender/executor is on a voice channel
         const voiceChannel = message.member.voiceChannel;
         if (!voiceChannel) {
             return new Error("You have to be inside a voice channel first!");
         }
 
+        // checks for the bot's permission
         const permissions = voiceChannel.permissionsFor(message.client.user);
         if (!permissions.has('SPEAK') || !permissions.has('CONNECT')) {
             return new Error("The bot doesn't have enough permission!");
         }
 
+        // checks if the bot is on a voice channel
         if (message.guild.voiceConnection) {
             return new Error("The bot is already on a voice channel!");
         }
 
         let finalResult = true;
 
+        // basically a callback for the ytdl#getInfo function
         const asyncRetriever = function (error, info) {
             if (error) {
                 return finalResult = error;
