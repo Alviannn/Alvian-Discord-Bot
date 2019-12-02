@@ -8,10 +8,11 @@ const commands = CommandHandler(fs.readdirSync("./commands/"));
 Main.insertCommands(commands);
 
 module.exports = {
-    call: async function (client) {
+    call: async function () {
+		const client = Main.client();
         if (!(client instanceof Discord.Client)) {
             return;
-        }
+		}
         
         client.on('message', async (message) => {
             const guildPrefix = Main.getOrCreateServer(message.guild.id).prefix;

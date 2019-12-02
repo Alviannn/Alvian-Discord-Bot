@@ -15,7 +15,7 @@ module.exports = {
             const listener = require('../listeners/' + file);
     
             if (listener) {
-                listener.call(client);
+                listener.call();
                 table.addRow(file, '✅');
             }
             else {

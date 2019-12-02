@@ -1,9 +1,7 @@
 const Discord = require('discord.js');
-const Main = require('../Main.js');
 const ytdl = require('ytdl-core');
 const ytsearch = require('youtube-search');
 
-const { Song } = require('../objects/Song.js');
 const youtubeKey = require('../config.json')['youtube-api-key'];
 
 module.exports = {
@@ -19,6 +17,7 @@ module.exports = {
             return;
         }
 
+        // starts searching the youtube title
         ytsearch(title, {key: youtubeKey, maxResults: 10}, function (error, result) {
             if (error) {
                 return console.log("An error has occurred! \n" + error);
@@ -36,12 +35,12 @@ module.exports = {
     /**
      * plays a music
      * 
-     * @param song      the song instance
+     * @param url       the youtube url
      * @param message   the message instance
      * @returns         the result of playing the music (might get an error so use it wisely)
      */
-    playMusic(song, message) {
-        if (!(song instanceof Song) || !(message instanceof Discord.Message)) {
+    playMusic(url, message) {
+        if (!(typeof url === 'string') || !(message instanceof Discord.Message)) {
             return;
         }
 
@@ -59,14 +58,19 @@ module.exports = {
             return new Error("The bot is already on a voice channel!");
         }
 
-        ytdl.getInfo(song.url, function (error, info) {
+        let finalResult = true;
+
+        const asyncRetriever = function (error, info) {
             if (error) {
-                message.channel.send("An error has occurred! \n\n" + error);
+                return finalResult = error;
             }
 
-            message.channel.send(info.title + " - " + info.video_url + " - " + info.baseUrl);
-        });
+            message.channel.send(info.title + " - " + info.video_url + " - " + info.video_id);
+        }
 
-        return true;
+        // gets the youtube info
+        ytdl.getInfo(url, (error, info) => asyncRetriever(error, info));
+
+        return finalResult;
     }
 };

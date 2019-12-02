@@ -5,7 +5,8 @@ const Main = require('../Main.js');
  * handles guild delete event
  */
 module.exports = {
-    call: async function (client) {
+    call: async function () {
+		const client = Main.client();
         if (!(client instanceof Discord.Client)) {
             return;
 		}

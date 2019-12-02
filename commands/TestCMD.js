@@ -1,7 +1,4 @@
 const Discord = require('discord.js');
-const Main = require('../Main.js');
-const { Song } = require('../objects/Song.js');
-const fs = require('fs');
 const MusicHandler = require('../handler/MusicHandler.js');
 
 module.exports = {
@@ -20,10 +17,14 @@ module.exports = {
             return message.reply("Invalid arguments!");
         }
         else {
-            const result = MusicHandler.playMusic(new Song('', 'https://www.youtube.com/watch?v=lzsow8bnT3Y'), message);
+            const result = MusicHandler.playMusic(args[0] + "", message);
             if (result instanceof Error) {
-                message.channel.send("An error has occurred! \n\n" + result);
+                return message.channel.send("An error has occurred! \n\n" + result);
+            }
+            if (result !== true) {
+                return message.channel.send("An error has occurred! \n\nFailed to retrieve results!");
             }
         }
+
     }
 };
