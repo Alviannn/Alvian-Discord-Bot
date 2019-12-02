@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const Main = require('../Main.js');
 const fs = require('fs');
 
-const CommandHandler = require('../handler/CommandHandler.js');
+const CommandHandler = require('../handlers/CommandHandler.js');
 const commands = CommandHandler(fs.readdirSync("./commands/"));
 
 Main.insertCommands(commands);

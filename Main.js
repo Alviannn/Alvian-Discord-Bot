@@ -192,7 +192,7 @@ module.exports = {
 
 // ------------------------------------------ //
 
-const ListenerHandler = require('./handler/ListenerHandler.js');
+const ListenerHandler = require('./handlers/ListenerHandler.js');
 ListenerHandler.handleRegister(client);
 
 // handles the client login

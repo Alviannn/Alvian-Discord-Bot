@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const MusicHandler = require('../handler/MusicHandler.js');
+const MusicHandler = require('../handlers/MusicHandler.js');
 
 module.exports = {
     name: "test",
