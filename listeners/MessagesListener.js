@@ -12,9 +12,20 @@ module.exports = {
 		const client = Main.client();
         if (!(client instanceof Discord.Client)) {
             return;
-		}
+        }
         
-        client.on('message', async (message) => {
+        async function handle(message) {
+            if (!(message instanceof Discord.Message)) {
+                return;
+            }
+
+            const botMentioned = message.isMentioned(message.client.user);
+            if (botMentioned) {
+                const server = Main.getOrCreateServer(message.guild.id);
+
+                return message.channel.send("This server prefix is `" + server.prefix + "`!");
+            }
+
             const guildPrefix = Main.getOrCreateServer(message.guild.id).prefix;
             if (message.author.bot || !message.guild || !message.content.startsWith(guildPrefix)) {
                 return;
@@ -34,6 +45,8 @@ module.exports = {
                     return value.execute(message, args);
                 }
             });
-        });
+        }
+        
+        client.on('message', async (message) => handle(message));
     }
 };
