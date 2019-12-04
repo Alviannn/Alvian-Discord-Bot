@@ -1,4 +1,14 @@
+/**
+ * Utilities module
+ */
 module.exports = {
+    /**
+     * Do a random number between min and max
+     * 
+     * @param {Number} min  the minimum number
+     * @param {Number} max  the maximum number
+     * @returns {Number}    the random number between the min and max number
+     */
     randomNumber(min, max) {
         if (!(max instanceof Number) || !(min instanceof Number)) {
             return null;
@@ -11,6 +21,12 @@ module.exports = {
 
         return random;
     },
+
+    /**
+     * Do a random boolean
+     * 
+     * @returns {Boolean} the random boolean
+     */
     randomBoolean() {
         const booleans = [true, false];
 
@@ -21,6 +37,14 @@ module.exports = {
 
         return booleans[random];
     },
+
+    /**
+     * Creates a random string
+     * 
+     * @param {Number} length       the string length
+     * @param {Boolean} useCapital  true if you want to use capital
+     * @param {Boolean} useNumber   true if you want to use number
+     */
     randomString(length, useCapital, useNumber) {
         if (!(length instanceof Number) || !(useCapital instanceof Boolean) || !(useNumber instanceof Boolean)) {
             return null;;
@@ -47,6 +71,12 @@ module.exports = {
 
         return strings;
     },
+
+    /**
+     * Creates a UUID
+     * 
+     * @returns {String} the uuid
+     */
     createUUID() {
         return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
             const r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
