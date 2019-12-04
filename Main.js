@@ -6,7 +6,7 @@ const config = require('./config.json');
 const fs = require("fs");
 const Utils = require('./Utils');
 
-let commands = [];
+let commands = new Map();
 
 /**
  * initializes the client variable (discord client instance)
@@ -171,7 +171,7 @@ module.exports = {
 	/**
 	 * inserts a command list to the 'commands' variable
 	 * 
-	 * @param commandList the command list
+	 * @param {Map} commandList the command list
 	 */
 	insertCommands(commandList) {
 		if (!commandList) {
@@ -182,7 +182,7 @@ module.exports = {
 	},
 
 	/**
-	 * @returns the command list
+	 * @returns {Map} the command list
 	 */
 	getCommandList() {
 		return commands;

@@ -3,7 +3,7 @@ const Main = require('../Main.js');
 const fs = require('fs');
 
 const CommandHandler = require('../handlers/CommandHandler.js');
-const commands = CommandHandler(fs.readdirSync("./commands/"));
+const commands = CommandHandler.handleCommands();
 
 Main.insertCommands(commands);
 

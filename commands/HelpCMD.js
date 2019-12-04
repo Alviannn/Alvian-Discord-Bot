@@ -14,13 +14,13 @@ module.exports = {
         // message.reply("Sorry but there's no help command yet :3").then(msg => msg.delete(3000));
 
         const commands = Main.getCommandList();
-        if (!(commands instanceof Discord.Collection)) {
+        if (!(commands instanceof Map)) {
             return;
         }
 
         const stringArray = new Array();
         const server = Main.getOrCreateServer(message.guild.id);
-        commands.forEach((value, key, map) => {
+        commands.forEach(function (value, key) {
              stringArray.push("● -- `" + server.prefix + key + "`" + (value.description ? " - _" + value.description + "_" : ""));
         });
 
