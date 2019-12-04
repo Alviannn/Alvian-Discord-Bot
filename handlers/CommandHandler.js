@@ -16,7 +16,7 @@ function handleCommandLoad(fullPath, fileName) {
     if (!fileName.endsWith('js') || !fullPath.endsWith('.js')) {
         return;
     }
-    // crates a command instance
+    // creates a command instance
     const command = require('.' + fullPath);
     
     if (!command) {
