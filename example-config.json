@@ -1,0 +1,5 @@
+{
+    "token" : "the token bot",
+    "default_prefix" : "$",
+    "youtube-api-key": "youtube api key? yep for new features"
+}
