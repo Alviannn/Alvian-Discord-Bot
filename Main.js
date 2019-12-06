@@ -27,8 +27,8 @@ module.exports = {
 	/**
 	 * checks the time elapsed between millis and the real time
 	 * 
-	 * @param millis the speficied time millis 
-	 * @returns the times elapsed
+	 * @param {Number} millis 	the speficied time millis 
+	 * @returns {Number}		the times elapsed
 	 */
 	elapsed(millis) {
 		return new Date().getTime() - millis;
@@ -37,8 +37,8 @@ module.exports = {
 	/**
 	 * formats the date into a more readable string
 	 * 
-	 * @param date the date
-	 * @returns the formatted date
+	 * @param {Date} date 	the date
+	 * @returns {String} 	the formatted date
 	 */
 	formatDate(date) {
 		if (!(date instanceof Date)) {
@@ -48,14 +48,14 @@ module.exports = {
 	},
 	
 	/**
-	 * @returns the client variable
+	 * @returns {Discord.Client} the client variable
 	 */
 	client() {
 		return client;
 	},
 
 	/**
-	 * @returns the prefix variable
+	 * @returns {String} the prefix variable
 	 */
 	prefix() {
 		return prefix;
@@ -64,8 +64,8 @@ module.exports = {
 	/**
 	 * checks if value is a number
 	 * 
-	 * @param value the possible number value
-	 * @returns true if value is number, otherwise false
+	 * @param {String} value	the possible number value
+	 * @returns {Boolean} 		true if value is number, otherwise false
 	 */
 	isNumber(value) {
 		return !isNaN(parseFloat(value)) && isFinite(value);
@@ -74,8 +74,8 @@ module.exports = {
 	/**
 	 * checks file existence
 	 * 
-	 * @param filePath the file path
-	 * @returns true if file exists, otherwise false
+	 * @param {String} filePath	the file path
+	 * @returns {Boolean}		true if file exists, otherwise false
 	 */
 	fileExists(filePath) {
 		return fs.existsSync(filePath);
@@ -84,7 +84,7 @@ module.exports = {
 	/**
 	 * creates empty file
 	 * 
-	 * @param filePath the file path
+	 * @param {String} filePath the file path
 	 */
 	createEmptyFile(filePath) {
 		if (!this.fileExists(filePath)) {
@@ -93,7 +93,7 @@ module.exports = {
 	},
 
 	/**
-	 * @returns utils instance
+	 * @returns {Utils} utils instance
 	 */
 	Utils() {
 		return Utils;
@@ -102,8 +102,8 @@ module.exports = {
 	/**
 	 * retrieves (or create if it doesn't exists) the server
 	 * 
-	 * @param guildId the guild id
-	 * @returns the server instance
+	 * @param {String} guildId 	the guild id
+	 * @returns {Server} 		the server instance
 	 */
 	getOrCreateServer(guildId) {
 		const filePath = './servers.json';
@@ -139,7 +139,7 @@ module.exports = {
 	/**
 	 * saves all servers to data
 	 * 
-	 * @param servers the server array
+	 * @param {Array} servers the server array
 	 */
 	saveServers(servers) {
 		const filePath = './servers.json';

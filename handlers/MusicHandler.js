@@ -8,9 +8,9 @@ module.exports = {
     /**
      * searches a music and then plays it
      * 
-     * @param title     the video title
-     * @param message   the message instance
-     * @returns         the result of playing the music (might get an error so use it wisely)
+     * @param {String} title    the video title
+     * @param {String} message  the message instance
+     * @returns {any}           the result of playing the music (might get an error so use it wisely)
      */
     searchMusic(title, message) {
         if (!(message instanceof Discord.Message)) {
@@ -35,9 +35,9 @@ module.exports = {
     /**
      * plays a music
      * 
-     * @param url       the youtube url
-     * @param message   the message instance
-     * @returns         the result of playing the music (might get an error so use it wisely)
+     * @param {String} url      the youtube url
+     * @param {string} message  the message instance
+     * @returns {any}           the result of playing the music (might get an error so use it wisely)
      */
     playMusic(url, message) {
         if (!(typeof url === 'string') || !(message instanceof Discord.Message)) {

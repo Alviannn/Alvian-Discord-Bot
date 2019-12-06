@@ -3,9 +3,9 @@ class Server {
 	/**
 	 * constructs the server instance
 	 * 
-	 * @param guildId 
-	 * @param modChannelId 
-	 * @param prefix 
+	 * @param {String} guildId 			the guild id
+	 * @param {String} modChannelId 	the mod channel id
+	 * @param {String} prefix 			the prefix
 	 */
 	constructor(guildId, prefix, modChannelId) {
 		this.guildId = guildId;
@@ -15,6 +15,8 @@ class Server {
 
 	/**
 	 * creates an Object
+	 * 
+	 * @returns {Object} the server object
 	 */
 	toObject() {
 		return JSON.parse(JSON.stringify(this, null, 4));
@@ -23,8 +25,9 @@ class Server {
 	/**
 	 * creates server instance from json string
 	 * 
-	 * @param json the json string
-	 * @param guildId  the guild ID
+	 * @param {String} json		the json string
+	 * @param {String} guildId 	the guild ID
+	 * @returns {Server} the server instance
 	 */
 	static fromJson(json, guildId) {
 		if (!json || !guildId) {
@@ -44,8 +47,9 @@ class Server {
 	/**
 	 * creates server instance from object
 	 * 
-	 * @param object the object
-	 * @param guildId the guild ID
+	 * @param {Object} object 	the object
+	 * @param {String} guildId 	the guild ID
+	 * @returns {Server} the server instance
 	 */
 	static fromObject(object, guildId) {
 		if (!object || !guildId) {
